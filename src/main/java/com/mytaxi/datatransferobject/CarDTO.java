@@ -43,7 +43,13 @@ public class CarDTO
 		return new CarDTOBuilder();
 	}
 	
-	
+
+	@Override
+	public String toString() {
+		return "CarDTO [id=" + id + ", licensePlate=" + licensePlate + "]";
+	}
+
+
 	public static class CarDTOBuilder 
 	{
         private Long id;
