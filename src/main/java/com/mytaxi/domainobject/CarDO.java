@@ -15,12 +15,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(
-    name = "car"
+    name = "car",
+    uniqueConstraints = @UniqueConstraint(name = "uc_licenseplate", columnNames = {"licensePlate"})
 )
 public class CarDO 
 {
     @Id
-    @SequenceGenerator(name = "carSeqGen", sequenceName = "carSeq", initialValue=100, allocationSize=100)
+    @SequenceGenerator(name = "carSeqGen", sequenceName = "carSeq", initialValue=100, allocationSize=1)
     @GeneratedValue(generator = "carSeqGen")
     private Long id;
     
