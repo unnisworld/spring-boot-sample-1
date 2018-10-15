@@ -2,9 +2,9 @@
  * CREATE Script for init of DB
  */
 -- Create 3 cars
-insert into car (id, date_created, deleted, licenseplate) values (1, now(), false, 'KL 07 AS 4444'); 
-insert into car (id, date_created, deleted, licenseplate) values (2, now(), false, 'KA 26 BC 1123'); 
-insert into car (id, date_created, deleted, licenseplate) values (3, now(), false, 'TN 03 CE 6657'); 
+insert into car (id, date_created, deleted, license_plate) values (1, now(), false, 'KL 07 AS 4444'); 
+insert into car (id, date_created, deleted, license_plate) values (2, now(), false, 'KA 26 BC 1123'); 
+insert into car (id, date_created, deleted, license_plate) values (3, now(), false, 'TN 03 CE 6657'); 
 
 -- Create 3 OFFLINE drivers
 

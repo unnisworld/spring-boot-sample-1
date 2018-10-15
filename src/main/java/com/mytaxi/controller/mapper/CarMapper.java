@@ -26,7 +26,7 @@ public class CarMapper
 		
         CarDTO.CarDTOBuilder carDTOBuilder = CarDTO.newBuilder()
                 .setId(carDO.getId())
-                .setLicenseplate(carDO.getLicenseplate());
+                .setLicenseplate(carDO.getLicensePlate());
 
             CarDTO carDTO = carDTOBuilder.createCarDTO();
             

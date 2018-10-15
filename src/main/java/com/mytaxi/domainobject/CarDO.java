@@ -28,7 +28,7 @@ public class CarDO
     
     @Column(nullable = false)
     @NotNull(message = "License can not be null!")
-    private String licenseplate;
+    private String licensePlate;
     
     @Column(nullable = false)
     private Boolean deleted = false;
@@ -39,9 +39,9 @@ public class CarDO
     }
     
     
-    public CarDO(String licenseplate)
+    public CarDO(String licensePlate)
     {
-        this.licenseplate = licenseplate;
+        this.licensePlate = licensePlate;
         this.deleted = false;
     }
     
@@ -57,9 +57,9 @@ public class CarDO
     }
     
     
-    public String getLicenseplate()
+    public String getLicensePlate()
     {
-        return licenseplate;
+        return licensePlate;
     }
     
     public Boolean getDeleted()
