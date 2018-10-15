@@ -13,18 +13,18 @@ public class CarDTO
     //@JsonIgnore
     private Long id;
 
-    @NotNull(message = "licenseplate can not be null!")
-    private String licenseplate;
+    @NotNull(message = "license plate can not be null!")
+    private String licensePlate;
     
     private CarDTO()
     {
     }
 
 
-    private CarDTO(Long id, String licenseplate)
+    private CarDTO(Long id, String licensePlate)
     {
         this.id = id;
-        this.licenseplate = licenseplate;
+        this.licensePlate = licensePlate;
     }
     
     public Long getId() 
@@ -32,9 +32,9 @@ public class CarDTO
     	return id;
     }
     
-	public String getLicenseplate() 
+	public String getLicensePlate() 
 	{
-		return this.licenseplate;
+		return this.licensePlate;
 	}
 
 	
@@ -47,7 +47,7 @@ public class CarDTO
 	public static class CarDTOBuilder 
 	{
         private Long id;
-        private String licenseplate;
+        private String licensePlate;
         
         
 		public Long getId() 
@@ -64,22 +64,22 @@ public class CarDTO
 		}
 		
 		
-		public String getLicenseplate() 
+		public String getLicensePlate() 
 		{
-			return licenseplate;
+			return licensePlate;
 		}
 		
 		
 		public CarDTOBuilder setLicenseplate(String licenseplate) 
 		{
-			this.licenseplate = licenseplate;
+			this.licensePlate = licenseplate;
 			
 			return this;
 		}
 		
         public CarDTO createCarDTO()
         {
-            return new CarDTO(id, licenseplate);
+            return new CarDTO(id, licensePlate);
         }
        
 	}

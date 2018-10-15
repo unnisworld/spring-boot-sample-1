@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class CarDO 
 {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "carSeqGen", sequenceName = "carSeq", initialValue=100, allocationSize=100)
+    @GeneratedValue(generator = "carSeqGen")
     private Long id;
     
     @Column(nullable = false)

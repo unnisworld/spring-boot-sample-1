@@ -17,7 +17,7 @@ public class CarMapper
 
 	public static CarDO makeCarDO(CarDTO carDTO) 
 	{
-		return new CarDO(carDTO.getLicenseplate());
+		return new CarDO(carDTO.getLicensePlate());
 	}
 	
 	
