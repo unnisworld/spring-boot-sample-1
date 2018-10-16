@@ -2,13 +2,16 @@ package com.mytaxi.domainobject;
 
 import java.time.ZonedDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -16,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mytaxi.domainvalue.EngineType;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.Manufacturer;
@@ -57,11 +61,16 @@ public class CarDO
     @Embedded
     private Manufacturer manufacturer;
     
+    // TODO : fix lazy loading not working.
+    @JsonIgnore
+    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private DriverDO driver;
+    
     @Column(nullable = false)
     private Boolean deleted = false;
     
     
-    private CarDO()
+    public CarDO()
     {
     }
     
@@ -90,33 +99,51 @@ public class CarDO
     }
  
     
-    public Short getSeatCount() {
+    public Short getSeatCount() 
+    {
 		return seatCount;
 	}
 
 
-	public void setSeatCount(Short seatCount) {
+	public void setSeatCount(Short seatCount) 
+	{
 		this.seatCount = seatCount;
 	}
 
 
-	public Float getRating() {
+	public Float getRating() 
+	{
 		return rating;
 	}
 
 
-	public void setRating(Float rating) {
+	public void setRating(Float rating) 
+	{
 		this.rating = rating;
 	}
 
 
-	public Boolean getConvertible() {
+	public Boolean getConvertible() 
+	{
 		return convertible;
 	}
 
 
-	public EngineType getEngineType() {
+	public EngineType getEngineType() 
+	{
 		return engineType;
+	}
+	
+
+	public DriverDO getDriver() 
+	{
+		return driver;
+	}
+
+
+	public void setDriver(DriverDO driver) 
+	{
+		this.driver = driver;
 	}
 
 

@@ -39,8 +39,8 @@ values
 
 -- Create 1 ONLINE driver with coordinate(longitude=9.5&latitude=55.954)
 
-insert into driver (id, coordinate, date_coordinate_updated, date_created, deleted, online_status, password, username)
+insert into driver (id, coordinate, date_coordinate_updated, date_created, deleted, online_status, password, username, selected_car_id)
 values
  (8,
  'aced0005737200226f72672e737072696e676672616d65776f726b2e646174612e67656f2e506f696e7431b9e90ef11a4006020002440001784400017978704023000000000000404bfa1cac083127', now(), now(), false, 'ONLINE',
-'driver08pw', 'driver08');
+'driver08pw', 'driver08', 1);

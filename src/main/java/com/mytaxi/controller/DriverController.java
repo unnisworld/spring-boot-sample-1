@@ -7,6 +7,10 @@ import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DriverService;
+import com.mytaxi.service.exception.CarAlreadyInUseException;
+import com.mytaxi.service.exception.CarNotFoundException;
+import com.mytaxi.service.exception.DriverNotOnlineException;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +82,18 @@ public class DriverController
     {
         return DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
     }
+    
+    
+    @PutMapping("/{driverId}/assign/car/{carId}")
+    public void selectCar(@PathVariable long driverId, @PathVariable long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException
+    {
+    	driverService.selectCar(driverId, carId);
+    }
+    
+    @PutMapping("/{driverId}/unassign/car")
+    public void deselectCar(@PathVariable long driverId) throws DriverNotOnlineException
+    {
+    	driverService.deselectCar(driverId);
+    }
+    
 }

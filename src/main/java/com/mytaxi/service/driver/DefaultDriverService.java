@@ -1,11 +1,17 @@
 package com.mytaxi.service.driver;
 
+import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.dataaccessobject.DriverRepository;
+import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.service.exception.CarAlreadyInUseException;
+import com.mytaxi.service.exception.CarNotFoundException;
+import com.mytaxi.service.exception.DriverNotOnlineException;
+
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +30,13 @@ public class DefaultDriverService implements DriverService
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
     private final DriverRepository driverRepository;
+    private final CarRepository carRepository;
 
 
-    public DefaultDriverService(final DriverRepository driverRepository)
+    public DefaultDriverService(final DriverRepository driverRepository, final CarRepository carRepository)
     {
         this.driverRepository = driverRepository;
+        this.carRepository = carRepository;
     }
 
 
@@ -113,11 +121,77 @@ public class DefaultDriverService implements DriverService
         return driverRepository.findByOnlineStatus(onlineStatus);
     }
 
+    /**
+     * Select a car for the driver.	
+     * @throws CarAlreadyInUseException 
+     * @throws CarNotFoundException 
+     * @throws DriverNotOnlineException 
+     */
+    @Transactional
+    public void selectCar(long driverId, long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException 
+    {
+    	CarDO car = carRepository.findById(carId).get();
+        if (car == null) 
+        {
+            throw new CarNotFoundException("Car with Id [" + carId + "] not found.");
+        }
+        
+        DriverDO driver = driverRepository.findById(driverId).get();
+        
+        // TODO : handle driver == null scenario
+        
+        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
+        {
+        	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
+        }
+        
+        if(car.getDriver() !=null && car.getDriver().getId() != driverId)
+        {
+            throw new CarAlreadyInUseException("Car with Id [" + carId + "] is already assigned to another driver.");
+        }
+        
+        if(driver.getCar() != null)
+        {
+        	// TODO : throw exception
+        	LOG.warn("TODO: Handle unassignCar case.");
+        }
+        
+        driver.setCar(car);
+        driverRepository.save(driver);
+        
+        LOG.info("Assigned car to driver  : {}", driver);
+    }
+    
+    @Transactional
+    public void deselectCar(long driverId) throws DriverNotOnlineException
+    { 
+        DriverDO driver = driverRepository.findById(driverId).get();
+        
+        System.out.println("Got driver from repo "+ driver);
+        
+        // TODO : handle driver == null
+        
+//        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
+//        {
+//        	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
+//        }
+//        
+        System.out.println("Driver's car " + driver.getCar());
+//        if (driver.getCar() != null) 
+//        {
+//        	driver.setCar(null);
+//        	driverRepository.save(driver);
+//        	LOG.info("Unassigned car");
+//        }
+    }
 
+    
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
         return driverRepository.findById(driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
+    
+
 
 }

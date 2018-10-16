@@ -8,8 +8,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -53,6 +56,9 @@ public class DriverDO
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
 
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "selected_car_id")
+    private CarDO car;	
 
     private DriverDO()
     {
@@ -129,5 +135,19 @@ public class DriverDO
         this.coordinate = coordinate;
         this.dateCoordinateUpdated = ZonedDateTime.now();
     }
+
+
+	public CarDO getCar() 
+	{
+		return car;
+	}
+
+
+	public void setCar(CarDO car) 
+	{
+		this.car = car;
+	}
+    
+    
 
 }
