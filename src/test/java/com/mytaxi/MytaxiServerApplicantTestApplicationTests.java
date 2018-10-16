@@ -1,9 +1,11 @@
 package com.mytaxi;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -48,22 +50,32 @@ public class MytaxiServerApplicantTestApplicationTests
     
     
     @Test
-    public void testCreateCars() 
-    {
-    	
-    }
-    
-    
-    @Test
     public void testGetAllCars() throws IOException, ClassNotFoundException 
     {
+    	List<CarDTO> expected = createExpectedCarsListForTestGetAllCars();
+    			
     	String resultJson = this.restTemplate.getForObject("http://localhost:" + port + "/v1/cars",
                 String.class);
     	
-    	List<CarDTO> allCars = getCarDTOListFromJsonString(resultJson);
+    	List<CarDTO> actual = getCarDTOListFromJsonString(resultJson);
     	
-    	assertTrue(allCars.size() == 3);
-    	// TODO : Add more assertions.
+    	assertThat(actual, is(expected));
+    }
+    
+    
+    
+    private List<CarDTO> createExpectedCarsListForTestGetAllCars() 
+    {
+    	List<CarDTO> cars = new ArrayList<CarDTO>(3);
+    	CarDTO car1 = CarDTO.newBuilder().setId(Long.valueOf("1")).setLicenseplate("KL 07 AS 4444").createCarDTO();
+    	CarDTO car2 = CarDTO.newBuilder().setId(Long.valueOf("2")).setLicenseplate("KA 26 BC 1123").createCarDTO();
+    	CarDTO car3 = CarDTO.newBuilder().setId(Long.valueOf("3")).setLicenseplate("TN 03 CE 6657").createCarDTO();
+    	
+    	cars.add(car1);
+    	cars.add(car2);
+    	cars.add(car3);
+    	
+    	return cars;
     }
     
     

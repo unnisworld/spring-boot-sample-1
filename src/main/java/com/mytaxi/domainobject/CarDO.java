@@ -3,7 +3,10 @@ package com.mytaxi.domainobject;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -12,6 +15,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.mytaxi.domainvalue.EngineType;
+import com.mytaxi.domainvalue.GeoCoordinate;
+import com.mytaxi.domainvalue.Manufacturer;
 
 @Entity
 @Table(
@@ -32,6 +39,23 @@ public class CarDO
     @Column(nullable = false)
     @NotNull(message = "License can not be null!")
     private String licensePlate;
+    
+    @Column(nullable = false)
+    @NotNull(message = "Seat count can not be null!")
+    private Short seatCount;
+    
+    @Column(nullable = false)
+    private Boolean convertible;
+    
+    @Column
+    private Float rating;
+    
+    @Enumerated(EnumType.STRING)
+    @Column
+    private EngineType engineType;
+    
+    @Embedded
+    private Manufacturer manufacturer;
     
     @Column(nullable = false)
     private Boolean deleted = false;
@@ -64,8 +88,39 @@ public class CarDO
     {
         return licensePlate;
     }
+ 
     
-    public Boolean getDeleted()
+    public Short getSeatCount() {
+		return seatCount;
+	}
+
+
+	public void setSeatCount(Short seatCount) {
+		this.seatCount = seatCount;
+	}
+
+
+	public Float getRating() {
+		return rating;
+	}
+
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+
+	public Boolean getConvertible() {
+		return convertible;
+	}
+
+
+	public EngineType getEngineType() {
+		return engineType;
+	}
+
+
+	public Boolean getDeleted()
     {
         return deleted;
     }
