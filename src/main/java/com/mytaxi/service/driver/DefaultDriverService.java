@@ -13,9 +13,16 @@ import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,6 +145,9 @@ public class DefaultDriverService implements DriverService
         
         DriverDO driver = driverRepository.findById(driverId).get();
         
+//        List<DriverDO> drivers = driverRepository.findByAttributes(driver.getUsername(), driver.getOnlineStatus(), car.getLicensePlate());
+//        System.out.println("FindByAttribute returned "+ drivers);
+        
         // TODO : handle driver == null scenario
         
         if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
@@ -182,6 +192,17 @@ public class DefaultDriverService implements DriverService
         	driverRepository.save(driver);
         	LOG.info("Unassigned car");
         }
+    }
+    
+    
+    public Iterable<DriverDO> search(@Valid DriverDO driverDO) 
+    {
+    	ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(StringMatcher.CONTAINING)   // Match string containing pattern   
+                .withIgnorePaths("dateCreated")
+                .withIgnoreCase();
+    	
+    	return driverRepository.findAll(Example.of(driverDO, matcher));
     }
 
     

@@ -3,8 +3,10 @@
  */
 -- Create 3 cars
 insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (1, now(), false, 'KL 07 AS 4444', 3, false, 4.5, 'GAS', 'Mercedes'); 
-insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (2, now(), false, 'KA 26 BC 1123',  3, false, 4.5, 'GAS', 'Mercedes'); 
-insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (3, now(), false, 'TN 03 CE 6657',  3, false, 4.5, 'GAS', 'BMW'); 
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (2, now(), false, 'KA 26 BC 1123',  3, false, 4.2, 'GAS', 'Mercedes'); 
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (3, now(), false, 'TN 03 CE 6657',  3, false, 4.1, 'GAS', 'BMW');
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (4, now(), false, 'MH 03 ZZ 8888',  3, false, 4.1, 'GAS', 'BMW');
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (5, now(), false, 'GA 03 AZ 1212',  3, false, 4.1, 'GAS', 'FIAT');
 
 -- Create 3 OFFLINE drivers
 
@@ -23,11 +25,11 @@ insert into driver (id, date_created, deleted, online_status, password, username
 insert into driver (id, date_created, deleted, online_status, password, username) values (4, now(), false, 'ONLINE',
 'driver04pw', 'driver04');
 
-insert into driver (id, date_created, deleted, online_status, password, username) values (5, now(), false, 'ONLINE',
-'driver05pw', 'driver05');
+insert into driver (id, date_created, deleted, online_status, password, username, selected_car_id) values (5, now(), false, 'ONLINE',
+'driver05pw', 'driver05', 2);
 
-insert into driver (id, date_created, deleted, online_status, password, username) values (6, now(), false, 'ONLINE',
-'driver06pw', 'driver06');
+insert into driver (id, date_created, deleted, online_status, password, username, selected_car_id) values (6, now(), false, 'ONLINE',
+'driver06pw', 'driver06', 3);
 
 -- Create 1 OFFLINE driver with coordinate(longitude=9.5&latitude=55.954)
 

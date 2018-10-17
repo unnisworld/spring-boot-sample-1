@@ -1,5 +1,6 @@
 package com.mytaxi.service.driver;
 
+import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
@@ -9,6 +10,8 @@ import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 public interface DriverService
 {
@@ -26,5 +29,7 @@ public interface DriverService
 	void selectCar(long driverId, long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException;
 
 	void deselectCar(long driverId) throws DriverNotOnlineException;
+
+	Iterable<DriverDO> search(@Valid DriverDO driverDO);
 
 }

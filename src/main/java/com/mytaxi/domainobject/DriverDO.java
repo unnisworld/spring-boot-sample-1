@@ -79,7 +79,22 @@ public class DriverDO
     }
 
 
-    public Long getId()
+    public DriverDO(String username2, OnlineStatus onlineStatus2, CarDO car) 
+    {
+		// TODO Auto-generated constructor stub
+    	this.username = username2;
+    	this.onlineStatus = onlineStatus2;
+    	this.coordinate = null;
+    	this.dateCoordinateUpdated = null;
+    	this.dateCreated = null;
+    	this.deleted = false;
+    	this.password = null;
+    	
+    	this.car = car;
+	}
+
+
+	public Long getId()
     {
         return id;
     }

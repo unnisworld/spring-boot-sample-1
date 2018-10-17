@@ -81,6 +81,19 @@ public class CarDO
         this.deleted = false;
     }
     
+    // Introduced for search usecase
+    public CarDO(String licensePlate, Float rating)
+    {
+        this.licensePlate = licensePlate;
+        this.rating = rating;
+        this.dateCreated = null;
+        this.deleted = false;
+        this.engineType = null;
+        this.manufacturer = null;
+        this.seatCount = null;
+        this.deleted = false;
+    }
+    
     public Long getId()
     {
         return id;

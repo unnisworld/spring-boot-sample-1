@@ -16,15 +16,18 @@ public class CarDTO
     @NotNull(message = "license plate can not be null!")
     private String licensePlate;
     
+    private Float rating;
+    
     private CarDTO()
     {
     }
 
 
-    private CarDTO(Long id, String licensePlate)
+    private CarDTO(Long id, String licensePlate, Float rating)
     {
         this.id = id;
         this.licensePlate = licensePlate;
+        this.rating = rating;
     }
     
     public Long getId() 
@@ -36,6 +39,11 @@ public class CarDTO
 	{
 		return this.licensePlate;
 	}
+	
+	public Float getRating() 
+	{
+		return this.rating;
+	}
 
 	
 	public static CarDTOBuilder newBuilder() 
@@ -46,10 +54,9 @@ public class CarDTO
 
 	@Override
 	public String toString() {
-		return "CarDTO [id=" + id + ", licensePlate=" + licensePlate + "]";
+		return "CarDTO [id=" + id + ", licensePlate=" + licensePlate + ", rating=" + rating + "]";
 	}
 
-	
 
 	@Override
 	public int hashCode() {
@@ -83,6 +90,7 @@ public class CarDTO
 	{
         private Long id;
         private String licensePlate;
+        private Float rating;
         
         
 		public Long getId() 
@@ -94,27 +102,24 @@ public class CarDTO
 		public CarDTOBuilder setId(Long id) 
 		{
 			this.id = id;
-			
 			return this;
 		}
-		
-		
-		public String getLicensePlate() 
-		{
-			return licensePlate;
-		}
-		
 		
 		public CarDTOBuilder setLicenseplate(String licenseplate) 
 		{
 			this.licensePlate = licenseplate;
-			
+			return this;
+		}
+		
+		public CarDTOBuilder setRating(Float rating) 
+		{
+			this.rating = rating;
 			return this;
 		}
 		
         public CarDTO createCarDTO()
         {
-            return new CarDTO(id, licensePlate);
+            return new CarDTO(id, licensePlate, rating);
         }
        
 	}
