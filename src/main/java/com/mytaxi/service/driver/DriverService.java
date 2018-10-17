@@ -2,11 +2,11 @@ package com.mytaxi.service.driver;
 
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
-import com.mytaxi.service.exception.CarAlreadyInUseException;
-import com.mytaxi.service.exception.CarNotFoundException;
-import com.mytaxi.service.exception.DriverNotOnlineException;
 
 import java.util.List;
 

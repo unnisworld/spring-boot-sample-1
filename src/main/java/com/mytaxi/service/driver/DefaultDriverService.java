@@ -6,11 +6,11 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
-import com.mytaxi.service.exception.CarAlreadyInUseException;
-import com.mytaxi.service.exception.CarNotFoundException;
-import com.mytaxi.service.exception.DriverNotOnlineException;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -171,18 +171,17 @@ public class DefaultDriverService implements DriverService
         
         // TODO : handle driver == null
         
-//        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
-//        {
-//        	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
-//        }
-//        
-        System.out.println("Driver's car " + driver.getCar());
-//        if (driver.getCar() != null) 
-//        {
-//        	driver.setCar(null);
-//        	driverRepository.save(driver);
-//        	LOG.info("Unassigned car");
-//        }
+        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
+        {
+        	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
+        }
+        
+        if (driver.getCar() != null) 
+        {
+        	driver.setCar(null);
+        	driverRepository.save(driver);
+        	LOG.info("Unassigned car");
+        }
     }
 
     

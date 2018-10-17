@@ -4,12 +4,12 @@ import com.mytaxi.controller.mapper.DriverMapper;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DriverService;
-import com.mytaxi.service.exception.CarAlreadyInUseException;
-import com.mytaxi.service.exception.CarNotFoundException;
-import com.mytaxi.service.exception.DriverNotOnlineException;
 
 import java.util.List;
 import javax.validation.Valid;
@@ -84,13 +84,13 @@ public class DriverController
     }
     
     
-    @PutMapping("/{driverId}/assign/car/{carId}")
-    public void selectCar(@PathVariable long driverId, @PathVariable long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException
+    @PutMapping("/{driverId}/car")
+    public void selectCar(@PathVariable long driverId, @RequestParam long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException
     {
     	driverService.selectCar(driverId, carId);
     }
     
-    @PutMapping("/{driverId}/unassign/car")
+    @DeleteMapping("/{driverId}/car")
     public void deselectCar(@PathVariable long driverId) throws DriverNotOnlineException
     {
     	driverService.deselectCar(driverId);
