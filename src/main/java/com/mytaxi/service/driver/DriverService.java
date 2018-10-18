@@ -1,6 +1,7 @@
 package com.mytaxi.service.driver;
 
 import com.mytaxi.datatransferobject.DriverDTO;
+import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
@@ -30,6 +31,6 @@ public interface DriverService
 
 	void deselectCar(long driverId) throws DriverNotOnlineException;
 
-	Iterable<DriverDO> search(@Valid DriverDO driverDO);
+	List<DriverDO> search(DriverSearchDTO driverSearchDTO);
 
 }

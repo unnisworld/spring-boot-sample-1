@@ -103,14 +103,19 @@ public class DriverController
     public List<DriverDTO> search(@Valid @RequestBody DriverSearchDTO driverSearchDTO) 
     {
     	System.out.println(driverSearchDTO);
-    	DriverDO exampleDriverDO = DriverSearchMapper.makeExampleDriverDO(driverSearchDTO);
-    	Iterable<DriverDO> matchingDrivers = driverService.search(exampleDriverDO);
+//    	DriverDO exampleDriverDO = DriverSearchMapper.makeExampleDriverDO(driverSearchDTO);
+//    	Iterable<DriverDO> matchingDrivers = driverService.search(exampleDriverDO);
     	
     	// DriverMapper requires a List.
-    	List<DriverDO> drivers = new ArrayList<>();
-    	matchingDrivers.forEach(drivers::add);
+//    	List<DriverDO> drivers = new ArrayList<>();
+//    	matchingDrivers.forEach(drivers::add);
+//    	
+//    	return DriverMapper.makeDriverDTOList(drivers);
     	
-    	return DriverMapper.makeDriverDTOList(drivers);
+    	List<DriverDO> matchingDrivers = driverService.search(driverSearchDTO);
+    	System.out.println(matchingDrivers);
+    	
+    	return DriverMapper.makeDriverDTOList(matchingDrivers);
     }
     
 }

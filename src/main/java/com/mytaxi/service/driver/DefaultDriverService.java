@@ -2,6 +2,7 @@ package com.mytaxi.service.driver;
 
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.dataaccessobject.DriverRepository;
+import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
@@ -25,6 +26,8 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.mytaxi.dataaccessobject.DriverRepository.Specifications.*;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
@@ -195,14 +198,17 @@ public class DefaultDriverService implements DriverService
     }
     
     
-    public Iterable<DriverDO> search(@Valid DriverDO driverDO) 
+    public List<DriverDO> search(DriverSearchDTO driverSearchDTO) 
     {
-    	ExampleMatcher matcher = ExampleMatcher.matching()
-                .withStringMatcher(StringMatcher.CONTAINING)   // Match string containing pattern   
-                .withIgnorePaths("dateCreated")
-                .withIgnoreCase();
+//    	ExampleMatcher matcher = ExampleMatcher.matching()
+//                .withStringMatcher(StringMatcher.CONTAINING)   // Match string containing pattern   
+//                .withIgnorePaths("dateCreated")
+//                .withIgnoreCase();
+//    	
+//    	return driverRepository.findAll(Example.of(driverDO, matcher));
     	
-    	return driverRepository.findAll(Example.of(driverDO, matcher));
+    	// return driverRepository.findAll(usernameLike(driverSearchDTO.getUsernameContains()));
+    	return driverRepository.findAll(licensePlateLike(driverSearchDTO.getLicensePlateContains()));
     }
 
     
