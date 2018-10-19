@@ -20,7 +20,6 @@ import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
-import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EmptySearchCriteriaException;
@@ -128,72 +127,71 @@ public class DefaultDriverService implements DriverService
         return driverRepository.findByOnlineStatus(onlineStatus);
     }
 
+
     /**
-     * Select a car for the driver.	
-     * @throws CarAlreadyInUseException 
-     * @throws CarNotFoundException 
-     * @throws DriverNotOnlineException 
+     * Select a car for the driver.
+     * @param driverId
+     * @param carId
+     * 
+     * @throws EntityNotFoundException
+     * @throws DriverNotOnlineException
+     * @throws CarAlreadyInUseException
      */
     @Transactional
     public void selectCar(long driverId, long carId) 
-    		throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException 
+    		throws EntityNotFoundException, DriverNotOnlineException, CarAlreadyInUseException 
     {
-    	CarDO car = carRepository.findById(carId).get();
-        if (car == null) 
-        {
-            throw new CarNotFoundException("Car with Id [" + carId + "] not found.");
-        }
+        DriverDO driver = findDriverChecked(driverId);
         
-        DriverDO driver = driverRepository.findById(driverId).get();
+    	CarDO car = findCarChecked(carId);
         
-        // TODO : handle driver == null scenario
-        
-        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
+        if ( isNotOnline(driver) ) 
         {
         	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
         }
         
-        if(car.getDriver() !=null && car.getDriver().getId() != driverId)
+        if( carAlreadyAssignedToAnotherDriver(car, driverId) )
         {
             throw new CarAlreadyInUseException("Car with Id [" + carId + "] is already assigned to another driver.");
         }
         
-        if(driver.getCar() != null)
+        if( carAlreadyAssignedToThisDriver(car, driverId) )
         {
-        	// TODO : throw exception
-        	LOG.warn("TODO: Handle unassignCar case.");
+        	LOG.info("Skipping database update as the car is already assigned to this driver.");
+        	return;
         }
         
         driver.setCar(car);
         driverRepository.save(driver);
-        
-        LOG.info("Assigned car to driver  : {}", driver);
     }
+
     
     
+    /**
+     * De-select a car.
+     * @param driverId
+     * 
+     * @throws EntityNotFoundException
+     */
     @Transactional
-    public void deselectCar(long driverId) throws DriverNotOnlineException
+    public void deselectCar(long driverId) throws EntityNotFoundException
     { 
-        DriverDO driver = driverRepository.findById(driverId).get();
-        
-        System.out.println("Got driver from repo "+ driver);
-        
-        // TODO : handle driver == null
-        
-        if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
-        {
-        	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
-        }
+        DriverDO driver = findDriverChecked(driverId);
         
         if (driver.getCar() != null) 
         {
         	driver.setCar(null);
         	driverRepository.save(driver);
-        	LOG.info("Unassigned car");
+        	LOG.info("Unassigned car.");
         }
     }
     
-    
+    /**
+     * Search for drivers matching the Search criteria.
+     * @param driverSearchDTO
+     * 
+     * @throws EmptySearchCriteriaException
+     */
     public List<DriverDO> search(DriverSearchCriteriaDTO driverSearchDTO) throws EmptySearchCriteriaException
     {
     	Specification<DriverDO> spec = buildQuerySpecification(driverSearchDTO).orElseThrow(EmptySearchCriteriaException::new);
@@ -205,7 +203,32 @@ public class DefaultDriverService implements DriverService
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
         return driverRepository.findById(driverId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+            .orElseThrow(() -> new EntityNotFoundException("Could not find driver with id: " + driverId));
     }
+    
+    
+	private CarDO findCarChecked(long carId) throws EntityNotFoundException 
+	{
+		return carRepository.findById(carId)
+				.orElseThrow(() -> new EntityNotFoundException("Could not find car with id: " + carId ));
+	}
+    
+    
+	private boolean carAlreadyAssignedToAnotherDriver(CarDO car, long driverId) 
+	{
+		return car.getDriver() !=null && car.getDriver().getId() != driverId;
+	}
+	
+	
+	private boolean carAlreadyAssignedToThisDriver(CarDO car, long driverId) 
+	{
+		return car.getDriver() !=null && car.getDriver().getId() == driverId;
+	}
+
+
+	private boolean isNotOnline(DriverDO driver) 
+	{
+		return !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus()));
+	}
     
 }

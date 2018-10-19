@@ -1,19 +1,15 @@
 package com.mytaxi.service.driver;
 
-import com.mytaxi.datatransferobject.DriverDTO;
+import java.util.List;
+
 import com.mytaxi.datatransferobject.DriverSearchCriteriaDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
-import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EmptySearchCriteriaException;
 import com.mytaxi.exception.EntityNotFoundException;
-
-import java.util.List;
-
-import javax.validation.Valid;
 
 public interface DriverService
 {
@@ -28,9 +24,9 @@ public interface DriverService
 
     List<DriverDO> find(OnlineStatus onlineStatus);
 
-	void selectCar(long driverId, long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException;
+	void selectCar(long driverId, long carId) throws EntityNotFoundException, DriverNotOnlineException, CarAlreadyInUseException;
 
-	void deselectCar(long driverId) throws DriverNotOnlineException;
+	void deselectCar(long driverId) throws EntityNotFoundException;
 
 	List<DriverDO> search(DriverSearchCriteriaDTO driverSearchDTO) throws EmptySearchCriteriaException;
 

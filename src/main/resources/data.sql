@@ -25,11 +25,11 @@ insert into driver (id, date_created, deleted, online_status, password, username
 insert into driver (id, date_created, deleted, online_status, password, username) values (4, now(), false, 'ONLINE',
 'driver04pw', 'driver04');
 
-insert into driver (id, date_created, deleted, online_status, password, username, selected_car_id) values (5, now(), false, 'ONLINE',
-'driver05pw', 'driver05', 2);
+insert into driver (id, date_created, deleted, online_status, password, username) values (5, now(), false, 'ONLINE',
+'driver05pw', 'driver05');
 
-insert into driver (id, date_created, deleted, online_status, password, username, selected_car_id) values (6, now(), false, 'ONLINE',
-'driver06pw', 'driver06', 3);
+insert into driver (id, date_created, deleted, online_status, password, username) values (6, now(), false, 'ONLINE',
+'driver06pw', 'driver06');
 
 -- Create 1 OFFLINE driver with coordinate(longitude=9.5&latitude=55.954)
 
