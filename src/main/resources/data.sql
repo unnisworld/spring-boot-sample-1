@@ -11,7 +11,7 @@ insert into car (id, date_created, deleted, license_plate, seat_count, convertib
 -- Create 3 OFFLINE drivers
 
 insert into driver (id, date_created, deleted, online_status, password, username) values (1, now(), false, 'OFFLINE',
-'driver01pw', 'driver01');
+'driver01pw', 'Driver01');
 
 insert into driver (id, date_created, deleted, online_status, password, username) values (2, now(), false, 'OFFLINE',
 'driver02pw', 'driver02');

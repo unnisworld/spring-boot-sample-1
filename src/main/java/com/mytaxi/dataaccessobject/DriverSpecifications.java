@@ -2,32 +2,31 @@ package com.mytaxi.dataaccessobject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 
 public class DriverSpecifications 
 {
-	 public static Specification<DriverDO> usernameLike(String username)
+	@SuppressWarnings("serial")
+	public static Specification<DriverDO> usernameLike(String username)
 	 {
 		    return new Specification<DriverDO>() 
 		    {
 				@Override
 				public Predicate toPredicate(Root<DriverDO> root, CriteriaQuery<?> query, CriteriaBuilder builder) 
 				{
-					System.out.println("Username like "+ username + "%");
-					return builder.like(root.get("username"), username + "%");
+					return builder.like(builder.lower(root.get("username")), builder.lower(builder.literal(username + "%")));
 				}
 			}; 
 	 }
 	 
+	
+	 @SuppressWarnings("serial")
 	 public static Specification<DriverDO> onlineStatusIs(OnlineStatus onlineStatus)
 	 {
 		    return new Specification<DriverDO>() 
@@ -40,6 +39,8 @@ public class DriverSpecifications
 			}; 
 	 }
 	 
+	 
+	 @SuppressWarnings("serial")
 	 public static Specification<DriverDO> licensePlateLike(String licensePlate)
 	 {
 		    return new Specification<DriverDO>() 
@@ -47,13 +48,13 @@ public class DriverSpecifications
 				@Override
 				public Predicate toPredicate(Root<DriverDO> root, CriteriaQuery<?> query, CriteriaBuilder builder) 
 				{
-					//Join<DriverDO, CarDO> fromCar = root.join("car");
-					return builder.like(root.join("car").get("licensePlate"), licensePlate + "%");
+					return builder.like(builder.lower(root.join("car").get("licensePlate")), builder.lower(builder.literal(licensePlate + "%")));
 				}
 			}; 
 	 }
 	 
 	 
+	 @SuppressWarnings("serial")
 	 public static Specification<DriverDO> ratingGreaterThan(Float rating)
 	 {
 		    return new Specification<DriverDO>() 
@@ -61,8 +62,6 @@ public class DriverSpecifications
 				@Override
 				public Predicate toPredicate(Root<DriverDO> root, CriteriaQuery<?> query, CriteriaBuilder builder) 
 				{
-					//Join<DriverDO, CarDO> fromCar = root.join("car");
-					System.out.println("Rating greater than "+ rating);
 					return builder.greaterThan(root.join("car").get("rating"), rating);
 				}
 			}; 
