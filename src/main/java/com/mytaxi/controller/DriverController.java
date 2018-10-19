@@ -3,13 +3,14 @@ package com.mytaxi.controller;
 import com.mytaxi.controller.mapper.DriverMapper;
 import com.mytaxi.controller.mapper.DriverSearchMapper;
 import com.mytaxi.datatransferobject.DriverDTO;
-import com.mytaxi.datatransferobject.DriverSearchDTO;
+import com.mytaxi.datatransferobject.DriverSearchCriteriaDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.DriverNotOnlineException;
+import com.mytaxi.exception.EmptySearchCriteriaException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DriverService;
 
@@ -88,7 +89,8 @@ public class DriverController
     
     
     @PutMapping("/{driverId}/car")
-    public void selectCar(@PathVariable long driverId, @RequestParam long carId) throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException
+    public void selectCar(@PathVariable long driverId, @RequestParam long carId) 
+    		throws CarAlreadyInUseException, CarNotFoundException, DriverNotOnlineException
     {
     	driverService.selectCar(driverId, carId);
     }
@@ -100,22 +102,9 @@ public class DriverController
     }
     
     @PostMapping("/search")
-    public List<DriverDTO> search(@Valid @RequestBody DriverSearchDTO driverSearchDTO) 
-    {
-    	System.out.println(driverSearchDTO);
-//    	DriverDO exampleDriverDO = DriverSearchMapper.makeExampleDriverDO(driverSearchDTO);
-//    	Iterable<DriverDO> matchingDrivers = driverService.search(exampleDriverDO);
-    	
-    	// DriverMapper requires a List.
-//    	List<DriverDO> drivers = new ArrayList<>();
-//    	matchingDrivers.forEach(drivers::add);
-//    	
-//    	return DriverMapper.makeDriverDTOList(drivers);
-    	
-    	List<DriverDO> matchingDrivers = driverService.search(driverSearchDTO);
-    	System.out.println(matchingDrivers);
-    	
-    	return DriverMapper.makeDriverDTOList(matchingDrivers);
+    public List<DriverDTO> search(@Valid @RequestBody DriverSearchCriteriaDTO driverSearchDTO) throws EmptySearchCriteriaException 
+    {	
+    	return DriverMapper.makeDriverDTOList(driverService.search(driverSearchDTO));
     }
     
 }

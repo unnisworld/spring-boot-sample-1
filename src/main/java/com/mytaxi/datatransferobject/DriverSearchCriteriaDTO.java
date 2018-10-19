@@ -2,7 +2,7 @@ package com.mytaxi.datatransferobject;
 
 import com.mytaxi.domainvalue.OnlineStatus;
 
-public class DriverSearchDTO 
+public class DriverSearchCriteriaDTO 
 {
 	private String usernameContains;
 	
@@ -47,7 +47,7 @@ public class DriverSearchDTO
 
 	@Override
 	public String toString() {
-		return "DriverSearchDTO [usernameContains=" + usernameContains + ", onlineStatus=" + onlineStatus
+		return "DriverSearchCriteriaDTO [usernameContains=" + usernameContains + ", onlineStatus=" + onlineStatus
 				+ ", licensePlateContains=" + licensePlateContains + ", rating=" + ratingGreaterThan + "]";
 	}
 	

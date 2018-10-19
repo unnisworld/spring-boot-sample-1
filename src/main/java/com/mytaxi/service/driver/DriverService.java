@@ -1,13 +1,14 @@
 package com.mytaxi.service.driver;
 
 import com.mytaxi.datatransferobject.DriverDTO;
-import com.mytaxi.datatransferobject.DriverSearchDTO;
+import com.mytaxi.datatransferobject.DriverSearchCriteriaDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.DriverNotOnlineException;
+import com.mytaxi.exception.EmptySearchCriteriaException;
 import com.mytaxi.exception.EntityNotFoundException;
 
 import java.util.List;
@@ -31,6 +32,6 @@ public interface DriverService
 
 	void deselectCar(long driverId) throws DriverNotOnlineException;
 
-	List<DriverDO> search(DriverSearchDTO driverSearchDTO);
+	List<DriverDO> search(DriverSearchCriteriaDTO driverSearchDTO) throws EmptySearchCriteriaException;
 
 }
