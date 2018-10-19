@@ -10,7 +10,7 @@ public class DriverSearchDTO
 	
 	private String licensePlateContains;
 	
-	private Float rating;
+	private Float ratingGreaterThan;
 
 
 	public String getUsernameContains() {
@@ -37,18 +37,18 @@ public class DriverSearchDTO
 		this.onlineStatus = onlineStatus;
 	}
 	
-	public Float getRating() {
-		return rating;
+	public Float getRatingGreaterThan() {
+		return ratingGreaterThan;
 	}
 
-	public void setRating(Float rating) {
-		this.rating = rating;
+	public void setRatingGreaterThan(Float rating) {
+		this.ratingGreaterThan = rating;
 	}
 
 	@Override
 	public String toString() {
 		return "DriverSearchDTO [usernameContains=" + usernameContains + ", onlineStatus=" + onlineStatus
-				+ ", licensePlateContains=" + licensePlateContains + ", rating=" + rating + "]";
+				+ ", licensePlateContains=" + licensePlateContains + ", rating=" + ratingGreaterThan + "]";
 	}
 	
 }

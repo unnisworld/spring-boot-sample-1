@@ -1,5 +1,16 @@
 package com.mytaxi.service.driver;
 
+//import static com.mytaxi.dataaccessobject.DriverRepository.Specifications.licensePlateLike;
+import static com.mytaxi.dataaccessobject.DriverSpecifications.*;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.dataaccessobject.DriverRepository;
 import com.mytaxi.datatransferobject.DriverSearchDTO;
@@ -12,22 +23,6 @@ import com.mytaxi.exception.CarNotFoundException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.DriverNotOnlineException;
 import com.mytaxi.exception.EntityNotFoundException;
-
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import static com.mytaxi.dataaccessobject.DriverRepository.Specifications.*;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
@@ -208,7 +203,9 @@ public class DefaultDriverService implements DriverService
 //    	return driverRepository.findAll(Example.of(driverDO, matcher));
     	
     	// return driverRepository.findAll(usernameLike(driverSearchDTO.getUsernameContains()));
-    	return driverRepository.findAll(licensePlateLike(driverSearchDTO.getLicensePlateContains()));
+    	//return driverRepository.findAll(licensePlateLike(driverSearchDTO.getLicensePlateContains()));
+    	//return driverRepository.findAll(onlineStatusIs(driverSearchDTO.getOnlineStatus()));
+    	return driverRepository.findAll(ratingGreaterThan(driverSearchDTO.getRatingGreaterThan()));
     }
 
     

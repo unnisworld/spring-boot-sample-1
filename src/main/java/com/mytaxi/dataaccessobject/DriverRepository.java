@@ -6,6 +6,7 @@ import com.mytaxi.domainvalue.OnlineStatus;
 import java.util.List;
 
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -46,9 +47,8 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
         	System.out.println("Value of licensePlate for like is "+ licensePlate);
         	
         	Specification<DriverDO> spec = (root, query, cb) -> {
-        		
         		Join<DriverDO, CarDO> car = root.join("car");
-        		return cb.like(car.get("licensePlate"), licensePlate + "%");
+        		return cb.like(root.join("car", JoinType.LEFT).get("licensePlate"), licensePlate + "%");
         	};
         	
             //return (root, query, cb) -> cb.like(root.get("car.licensePlate"), licensePlate + "%");

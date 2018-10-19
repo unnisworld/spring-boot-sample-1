@@ -10,7 +10,7 @@ public class DriverSearchMapper
     public static DriverDO makeExampleDriverDO(DriverSearchDTO driverSearchDTO)
     {
         return new DriverDO(driverSearchDTO.getUsernameContains(), driverSearchDTO.getOnlineStatus(), 
-        						new CarDO(driverSearchDTO.getLicensePlateContains(), driverSearchDTO.getRating())
+        						new CarDO(driverSearchDTO.getLicensePlateContains(), driverSearchDTO.getRatingGreaterThan())
         				   );
     }
 
