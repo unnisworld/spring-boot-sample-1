@@ -4,10 +4,14 @@ package com.mytaxi.service.driver;
 import static com.mytaxi.dataaccessobject.DriverSpecifications.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
+
+import static org.springframework.data.jpa.domain.Specification.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -143,9 +147,6 @@ public class DefaultDriverService implements DriverService
         
         DriverDO driver = driverRepository.findById(driverId).get();
         
-//        List<DriverDO> drivers = driverRepository.findByAttributes(driver.getUsername(), driver.getOnlineStatus(), car.getLicensePlate());
-//        System.out.println("FindByAttribute returned "+ drivers);
-        
         // TODO : handle driver == null scenario
         
         if ( !(OnlineStatus.ONLINE.equals(driver.getOnlineStatus())) ) 
@@ -195,17 +196,9 @@ public class DefaultDriverService implements DriverService
     
     public List<DriverDO> search(DriverSearchDTO driverSearchDTO) 
     {
-//    	ExampleMatcher matcher = ExampleMatcher.matching()
-//                .withStringMatcher(StringMatcher.CONTAINING)   // Match string containing pattern   
-//                .withIgnorePaths("dateCreated")
-//                .withIgnoreCase();
-//    	
-//    	return driverRepository.findAll(Example.of(driverDO, matcher));
+    	Specification<DriverDO> spec = buildSpecification(driverSearchDTO).orElseThrow(RuntimeException::new);
     	
-    	// return driverRepository.findAll(usernameLike(driverSearchDTO.getUsernameContains()));
-    	//return driverRepository.findAll(licensePlateLike(driverSearchDTO.getLicensePlateContains()));
-    	//return driverRepository.findAll(onlineStatusIs(driverSearchDTO.getOnlineStatus()));
-    	return driverRepository.findAll(ratingGreaterThan(driverSearchDTO.getRatingGreaterThan()));
+    	return driverRepository.findAll(spec);
     }
 
     
@@ -215,6 +208,53 @@ public class DefaultDriverService implements DriverService
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
     
-
+    
+    private Optional<Specification<DriverDO>> buildSpecification(DriverSearchDTO searchInput) 
+    {
+    	SpecificationBuilder specBuilder = new SpecificationBuilder();
+    	
+    	Specification<DriverDO> spec = null;
+    	if (searchInput.getUsernameContains() != null) 
+    	{
+    		spec = specBuilder.add(usernameLike(searchInput.getUsernameContains()));
+    	}
+    	
+    	if (searchInput.getOnlineStatus() != null)
+    	{
+    		spec = specBuilder.add(onlineStatusIs(searchInput.getOnlineStatus()));
+    	}
+    	
+    	if (searchInput.getLicensePlateContains() != null)
+    	{
+    		spec = specBuilder.add(licensePlateLike(searchInput.getLicensePlateContains()));
+    	}
+    	
+    	if (searchInput.getRatingGreaterThan() != null)
+    	{
+    		spec = specBuilder.add(ratingGreaterThan(searchInput.getRatingGreaterThan()));
+    	}
+    	
+    	return Optional.ofNullable(spec);
+    }
+    
+    
+    static class SpecificationBuilder 
+    {
+    	private Specification<DriverDO> currentValue = null;
+    		
+    	Specification<DriverDO> add(Specification<DriverDO> spec) 
+    	{
+    		if (currentValue == null) 
+    		{
+    			currentValue = spec;
+    		} 
+    		else 
+    		{
+    			currentValue = currentValue.and(spec);
+    		}
+    		
+    		return currentValue;
+    	}
+    }
 
 }

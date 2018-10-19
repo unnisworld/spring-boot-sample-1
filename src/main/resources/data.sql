@@ -2,8 +2,8 @@
  * CREATE Script for init of DB
  */
 -- Create 3 cars
-insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (1, now(), false, 'KL 07 AS 4444', 3, false, 4.5, 'GAS', 'Mercedes'); 
-insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (2, now(), false, 'KA 26 BC 1123',  3, false, 3.9, 'GAS', 'Mercedes'); 
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (1, now(), false, 'KL 07 AS 4444', 3, false, 4.6, 'GAS', 'Mercedes'); 
+insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (2, now(), false, 'KL 26 BC 1123',  3, false, 3.9, 'GAS', 'Mercedes'); 
 insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (3, now(), false, 'TN 03 CE 6657',  3, false, 4.1, 'GAS', 'BMW');
 insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (4, now(), false, 'MH 03 ZZ 8888',  3, false, 4.1, 'GAS', 'BMW');
 insert into car (id, date_created, deleted, license_plate, seat_count, convertible, rating, engine_type, manufacturer) values (5, now(), false, 'GA 03 AZ 1212',  3, false, 4.1, 'GAS', 'FIAT');

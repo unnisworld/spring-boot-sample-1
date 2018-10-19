@@ -22,6 +22,7 @@ public class DriverSpecifications
 				@Override
 				public Predicate toPredicate(Root<DriverDO> root, CriteriaQuery<?> query, CriteriaBuilder builder) 
 				{
+					System.out.println("Username like "+ username + "%");
 					return builder.like(root.get("username"), username + "%");
 				}
 			}; 
@@ -61,6 +62,7 @@ public class DriverSpecifications
 				public Predicate toPredicate(Root<DriverDO> root, CriteriaQuery<?> query, CriteriaBuilder builder) 
 				{
 					//Join<DriverDO, CarDO> fromCar = root.join("car");
+					System.out.println("Rating greater than "+ rating);
 					return builder.greaterThan(root.join("car").get("rating"), rating);
 				}
 			}; 
