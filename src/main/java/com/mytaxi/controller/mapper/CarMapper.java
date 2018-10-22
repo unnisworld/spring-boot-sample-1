@@ -10,14 +10,18 @@ import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
+import com.mytaxi.domainvalue.EngineType;
 import com.mytaxi.domainvalue.GeoCoordinate;
+import com.mytaxi.domainvalue.Manufacturer;
 
 public class CarMapper 
 {
 
 	public static CarDO makeCarDO(CarDTO carDTO) 
 	{
-		return new CarDO(carDTO.getLicensePlate());
+		return new CarDO(carDTO.getLicensePlate(), carDTO.getRating(), 
+				         carDTO.getEngineType(), carDTO.getManufacturer(), 
+				         carDTO.isConvertible(), carDTO.getSeatCount());
 	}
 	
 	
@@ -26,7 +30,12 @@ public class CarMapper
 		
         CarDTO.CarDTOBuilder carDTOBuilder = CarDTO.newBuilder()
                 .setId(carDO.getId())
-                .setLicenseplate(carDO.getLicensePlate());
+                .setLicenseplate(carDO.getLicensePlate())
+                .setRating(carDO.getRating())
+                .setConvertible(carDO.getConvertible())
+                .setManufacturer(carDO.getManufacturer())
+                .setEngineType(carDO.getEngineType())
+                .setSeatCount(carDO.getSeatCount());
 
             CarDTO carDTO = carDTOBuilder.createCarDTO();
             

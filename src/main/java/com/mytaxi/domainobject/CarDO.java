@@ -80,9 +80,14 @@ public class CarDO
     }
     
     
-    public CarDO(String licensePlate)
+    public CarDO(String licensePlate, Float rating, EngineType engineType, Manufacturer manufacturer, Boolean convertible, Short seatCount)
     {
         this.licensePlate = licensePlate;
+        this.rating = rating;
+        this.engineType = engineType;
+        this.manufacturer = manufacturer;
+        this.convertible = convertible;
+        this.seatCount = seatCount;
         this.deleted = false;
     }
     
@@ -156,6 +161,11 @@ public class CarDO
 	public DriverDO getDriver() 
 	{
 		return driver;
+	}
+	
+
+	public Manufacturer getManufacturer() {
+		return manufacturer;
 	}
 
 
