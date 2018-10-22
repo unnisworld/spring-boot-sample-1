@@ -11,12 +11,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +32,7 @@ import com.mytaxi.domainvalue.Manufacturer;
     name = "car",
     uniqueConstraints = @UniqueConstraint(name = "uc_licenseplate", columnNames = {"licensePlate"})
 )
+@NamedEntityGraph(name = "joined", includeAllAttributes = true)
 public class CarDO 
 {
     @Id
@@ -61,9 +65,10 @@ public class CarDO
     @Embedded
     private Manufacturer manufacturer;
     
-    // TODO : fix lazy loading not working.
     @JsonIgnore
-    @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    // @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional=true)
+    @OneToOne(mappedBy = "car", optional=true)
+    @Fetch(FetchMode.JOIN)
     private DriverDO driver;
     
     @Column(nullable = false)
