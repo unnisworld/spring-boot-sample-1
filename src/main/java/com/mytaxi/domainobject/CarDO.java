@@ -2,29 +2,21 @@ package com.mytaxi.domainobject;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mytaxi.domainvalue.EngineType;
-import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.Manufacturer;
 
 @Entity
@@ -32,7 +24,6 @@ import com.mytaxi.domainvalue.Manufacturer;
     name = "car",
     uniqueConstraints = @UniqueConstraint(name = "uc_licenseplate", columnNames = {"licensePlate"})
 )
-@NamedEntityGraph(name = "joined", includeAllAttributes = true)
 public class CarDO 
 {
     @Id
@@ -64,10 +55,6 @@ public class CarDO
     
     @Embedded
     private Manufacturer manufacturer;
-    
-    @JsonIgnore
-    @OneToOne(mappedBy = "car", optional=true)
-    private DriverDO driver;
     
     @Column(nullable = false)
     private Boolean deleted = false;
@@ -144,20 +131,8 @@ public class CarDO
 	}
 	
 
-	public DriverDO getDriver() 
-	{
-		return driver;
-	}
-	
-
 	public Manufacturer getManufacturer() {
 		return manufacturer;
-	}
-
-
-	public void setDriver(DriverDO driver) 
-	{
-		this.driver = driver;
 	}
 
 
@@ -206,7 +181,7 @@ public class CarDO
 	public String toString() {
 		return "CarDO [id=" + id + ", dateCreated=" + dateCreated + ", licensePlate=" + licensePlate + ", seatCount="
 				+ seatCount + ", convertible=" + convertible + ", rating=" + rating + ", engineType=" + engineType
-				+ ", manufacturer=" + manufacturer + ", driver=" + driver + ", deleted=" + deleted + "]";
+				+ ", manufacturer=" + manufacturer + ", deleted=" + deleted + "]";
 	}
     
     

@@ -101,6 +101,16 @@ public class DriverController
     	driverService.deselectCar(driverId);
     }
     
+    
+    /**
+     * Search for Drivers matching given search criteria. If multiple search criterion's are specified then
+     * the drivers matching all the specified criterions will be returned. In other words, all the Criterion's will be AND'ed
+     * to form the final query Criteria.
+     * 
+     * @param driverSearchDTO
+     * @return List of matching Drivers.
+     * @throws EmptySearchCriteriaException
+     */
     @PostMapping("/search")
     public List<DriverDTO> search(@Valid @RequestBody DriverSearchCriteriaDTO driverSearchDTO) throws EmptySearchCriteriaException 
     {	

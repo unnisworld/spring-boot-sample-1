@@ -150,15 +150,9 @@ public class DefaultDriverService implements DriverService
         	throw new DriverNotOnlineException("Status of driver with Id ["+ driverId +" is not ONLINE.");
         }
         
-        if( carAlreadyAssignedToAnotherDriver(car, driverId) )
+        if( driverRepository.findByCar(car) != null )
         {
-            throw new CarAlreadyInUseException("Car with Id [" + carId + "] is already assigned to another driver.");
-        }
-        
-        if( carAlreadyAssignedToThisDriver(car, driverId) )
-        {
-        	LOG.info("Skipping database update as the car is already assigned to this driver.");
-        	return;
+            throw new CarAlreadyInUseException("Car with Id [" + carId + "] is already assigned to a driver.");
         }
         
         driver.setCar(car);
@@ -196,10 +190,7 @@ public class DefaultDriverService implements DriverService
     {
     	Specification<DriverDO> spec = buildQuerySpecification(driverSearchDTO).orElseThrow(EmptySearchCriteriaException::new);
     	
-    	System.out.println("About to call search.");
-    	List<DriverDO> searchResult = driverRepository.findAll(spec);
-    	System.out.println("Search returned.");
-    	return searchResult;
+    	return driverRepository.findAll(spec);
     }
 
     
@@ -214,18 +205,6 @@ public class DefaultDriverService implements DriverService
 	{
 		return carRepository.findById(carId)
 				.orElseThrow(() -> new EntityNotFoundException("Could not find car with id: " + carId ));
-	}
-    
-    
-	private boolean carAlreadyAssignedToAnotherDriver(CarDO car, long driverId) 
-	{
-		return car.getDriver() !=null && car.getDriver().getId() != driverId;
-	}
-	
-	
-	private boolean carAlreadyAssignedToThisDriver(CarDO car, long driverId) 
-	{
-		return car.getDriver() !=null && car.getDriver().getId() == driverId;
 	}
 
 
