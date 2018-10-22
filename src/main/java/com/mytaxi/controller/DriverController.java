@@ -104,7 +104,7 @@ public class DriverController
     
     /**
      * Search for Drivers matching given search criteria. If multiple search criterion's are specified then
-     * the drivers matching all the specified criterions will be returned. In other words, all the Criterion's will be AND'ed
+     * the drivers matching all the specified criterion will be returned. In other words, all the Criterion's will be AND'ed
      * to form the final query Criteria.
      * 
      * @param driverSearchDTO
