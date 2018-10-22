@@ -66,9 +66,7 @@ public class CarDO
     private Manufacturer manufacturer;
     
     @JsonIgnore
-    // @OneToOne(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.DETACH, optional=true)
     @OneToOne(mappedBy = "car", optional=true)
-    @Fetch(FetchMode.JOIN)
     private DriverDO driver;
     
     @Column(nullable = false)
@@ -91,18 +89,6 @@ public class CarDO
         this.deleted = false;
     }
     
-    // Introduced for search usecase
-    public CarDO(String licensePlate, Float rating)
-    {
-        this.licensePlate = licensePlate;
-        this.rating = rating;
-        this.dateCreated = null;
-        this.deleted = false;
-        this.engineType = null;
-        this.manufacturer = null;
-        this.seatCount = null;
-        this.deleted = false;
-    }
     
     public Long getId()
     {
@@ -185,5 +171,44 @@ public class CarDO
     {
         this.deleted = deleted;
     }
+    
+    
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((licensePlate == null) ? 0 : licensePlate.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CarDO other = (CarDO) obj;
+		if (licensePlate == null) {
+			if (other.licensePlate != null)
+				return false;
+		} else if (!licensePlate.equals(other.licensePlate))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "CarDO [id=" + id + ", dateCreated=" + dateCreated + ", licensePlate=" + licensePlate + ", seatCount="
+				+ seatCount + ", convertible=" + convertible + ", rating=" + rating + ", engineType=" + engineType
+				+ ", manufacturer=" + manufacturer + ", driver=" + driver + ", deleted=" + deleted + "]";
+	}
+    
+    
    
 }

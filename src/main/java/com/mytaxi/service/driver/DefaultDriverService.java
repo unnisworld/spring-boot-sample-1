@@ -196,7 +196,10 @@ public class DefaultDriverService implements DriverService
     {
     	Specification<DriverDO> spec = buildQuerySpecification(driverSearchDTO).orElseThrow(EmptySearchCriteriaException::new);
     	
-    	return driverRepository.findAll(spec);
+    	System.out.println("About to call search.");
+    	List<DriverDO> searchResult = driverRepository.findAll(spec);
+    	System.out.println("Search returned.");
+    	return searchResult;
     }
 
     

@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -26,6 +27,7 @@ import org.springframework.format.annotation.DateTimeFormat;
     uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"})
 )
 @DynamicUpdate
+@NamedEntityGraph(name = "joinedDriver", includeAllAttributes = true)
 public class DriverDO
 {
 
@@ -77,21 +79,6 @@ public class DriverDO
         this.dateCoordinateUpdated = null;
         this.onlineStatus = OnlineStatus.OFFLINE;
     }
-
-
-    public DriverDO(String username2, OnlineStatus onlineStatus2, CarDO car) 
-    {
-		// TODO Auto-generated constructor stub
-    	this.username = username2;
-    	this.onlineStatus = onlineStatus2;
-    	this.coordinate = null;
-    	this.dateCoordinateUpdated = null;
-    	this.dateCreated = null;
-    	this.deleted = false;
-    	this.password = null;
-    	
-    	this.car = car;
-	}
 
 
 	public Long getId()
@@ -164,6 +151,41 @@ public class DriverDO
 	public void setCar(CarDO car) 
 	{
 		this.car = car;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DriverDO other = (DriverDO) obj;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "DriverDO [id=" + id + ", dateCreated=" + dateCreated + ", username=" + username + ", password="
+				+ password + ", deleted=" + deleted + ", coordinate=" + coordinate + ", dateCoordinateUpdated="
+				+ dateCoordinateUpdated + ", onlineStatus=" + onlineStatus + ", car=" + car + "]";
 	}
     
     
